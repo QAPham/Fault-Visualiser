@@ -6,72 +6,290 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Width="1498">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
+
+    <Page.Resources>
+        <Style TargetType="PivotHeaderItem">
+            <Setter Property="FontSize"
+                Value="{ThemeResource PivotHeaderItemFontSize}" />
+            <Setter Property="FontFamily"
+                Value="{ThemeResource PivotHeaderItemFontFamily}" />
+            <Setter Property="FontWeight"
+                Value="{ThemeResource PivotHeaderItemThemeFontWeight}" />
+            <Setter Property="CharacterSpacing"
+                Value="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+            <Setter Property="Background"
+                Value="{ThemeResource PivotHeaderItemBackgroundUnselected}" />
+            <Setter Property="Foreground"
+                Value="{ThemeResource PivotHeaderItemForegroundUnselected}" />
+            <Setter Property="Padding"
+                Value="{ThemeResource PivotHeaderItemMargin}" />
+            <Setter Property="Height"
+                Value="48" />
+            <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+            <Setter Property="IsTabStop"
+                Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PivotHeaderItem">
+                        <Grid x:Name="Grid"
+                          Background="{TemplateBinding Background}"
+                          Padding="{TemplateBinding Padding}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Unselected"
+                                                      To="UnselectedLocked"
+                                                      GeneratedDuration="0:0:0.33" />
+                                        <VisualTransition From="UnselectedLocked"
+                                                      To="Unselected"
+                                                      GeneratedDuration="0:0:0.33" />
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemForegroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                                       Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemBackgroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="UnselectedLocked">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ContentPresenterTranslateTransform"
+                                                         Storyboard.TargetProperty="X"
+                                                         Duration="0"
+                                                         To="{ThemeResource PivotHeaderItemLockedTranslation}" />
+                                            <DoubleAnimation Storyboard.TargetName="ContentPresenter"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         Duration="0"
+                                                         To="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Target="FocusPipe.Visibility"
+                                                Value="Visible" />
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemForegroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                                       Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemBackgroundSelected}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="UnselectedPointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemForegroundUnselectedPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                                       Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemBackgroundUnselectedPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedPointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="FocusPipe.Visibility"
+                                                Value="Visible" />
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemForegroundSelectedPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                                       Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemBackgroundSelectedPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="UnselectedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemForegroundUnselectedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                                       Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemBackgroundUnselectedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedPressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="FocusPipe.Visibility"
+                                                Value="Visible" />
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemForegroundSelectedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Grid"
+                                                                       Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource PivotHeaderItemBackgroundSelectedPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualState x:Name="Focused">
+                                        <VisualState.Setters>
+                                            <Setter Target="FocusPipe.Visibility"
+                                                Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Unfocused" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid.RenderTransform>
+                                <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
+                            </Grid.RenderTransform>
+                            <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          FontFamily="{TemplateBinding FontFamily}"
+                                          FontWeight="{TemplateBinding FontWeight}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          OpticalMarginAlignment="TrimSideBearings" />
+                            <Rectangle x:Name="FocusPipe"
+                                   Fill="{ThemeResource PivotHeaderItemFocusPipeFill}"
+                                   Height="2"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Stretch"
+                                   Visibility="Collapsed" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="10,0,0,0">
+        <Grid.RowDefinitions  >
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="217*"/>
+            <RowDefinition Height="703*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions  >
             <ColumnDefinition Width="517*"/>
             <ColumnDefinition Width="983*"/>
         </Grid.ColumnDefinitions>
-        <Charting:Chart  
+        <Rectangle Grid.ColumnSpan="2" Fill="#FFF57921" HorizontalAlignment="Left" Height="109" Grid.RowSpan="2" VerticalAlignment="Top" Width="2090" RenderTransformOrigin="0.499,1.579" Margin="-304,0,-298,0" />
+        <Pivot x:Name="pivotLoadCell" Grid.Column="1" Margin="493.666,10.646,78.833,209.6" BorderBrush="Black" Grid.Row="1" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" FontSize="14" SelectionChanged="pivotLoadCell_SelectionChanged"  IsTabStop="False" Grid.RowSpan="2">
+            <Pivot.RenderTransform>
+                <CompositeTransform SkewY="0.22" TranslateY="-0.746"/>
+            </Pivot.RenderTransform>
+            <PivotItem x:Name="pivot750" Header="Loadcell 750 KG" FontFamily="Calibri" FontSize="18"  RequestedTheme="Dark" Margin="12,10,11.834,-0.246"  IsTabStop="False"/>
+            <PivotItem x:Name="pivot1500" Header="Loadcell 1500 KG" FontFamily="Calibri" FontSize="18" RequestedTheme="Dark" IsTabStop="False"/>
+        </Pivot>
+        <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="224" Margin="506.333,367.667,0,0" VerticalAlignment="Top" Width="386" Grid.Row="2"/>
+        <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="445" Margin="506.333,117,0,0" VerticalAlignment="Top" Width="386" Grid.Row="1" Grid.RowSpan="2"/>
+        <ScrollViewer x:Name="scrollGraph" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="692" Margin="10,117,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1000" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.RowSpan="2">
+            <ContentControl x:Name="content">
+                <Charting:Chart 
             x:Name="lineChart"  
             HorizontalAlignment="Left"  
-            VerticalAlignment="Top"  
-            Margin="69,67,0,0" Height="683" Width="1000" Grid.ColumnSpan="2" >
-            <Charting:LineSeries Margin="0,0,0,0" 
+            VerticalAlignment="Top" Height="692" Width="1000" Grid.ColumnSpan="2" FontFamily="Calibri" UseSystemFocusVisuals="True" Background="#FFEEEEEE" Grid.Row="1" IsTabStop="False" ScrollViewer.HorizontalScrollBarVisibility="Visible" >
+
+                    <Charting:LineSeries Margin="0,0,0,0" 
                 IndependentValuePath="Name"  
                 DependentValuePath="Amount"  
-                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497"/>
-            <Charting:LineSeries Margin="0,0,0,0"  
+                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497" Title="Loadcell 1" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+                    <Charting:LineSeries Margin="0,0,0,0"  
                 IndependentValuePath="Name"  
                 DependentValuePath="Amount"  
-                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497"/>
-            <Charting:LineSeries Margin="0,0,0,0"  
+                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497" Title="Loadcell 2" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
+                    <Charting:LineSeries Margin="0,0,0,0"  
                 IndependentValuePath="Name"  
                 DependentValuePath="Amount"  
-                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497"/>
-            <Charting:LineSeries Margin="0,0,0,0"  
+                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497" Title="Loadcell 3" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
+                    <Charting:LineSeries Margin="0,0,0,0"  
                 IndependentValuePath="Name"  
                 DependentValuePath="Amount"  
-                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497"/>
-        </Charting:Chart>
-        <Button x:Name="btnSubmit" Content="SUBMIT" Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="636,425,0,0" VerticalAlignment="Top" Width="118" RenderTransformOrigin="1,0" Click="btnSubmit_Click" Background="#FFFF7900" FontFamily="Calibri Light" FontSize="18" Foreground="White" >
+                IsSelectionEnabled="True" RenderTransformOrigin="0.499,0.497" Title="Loadcell 4" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+                    <Charting:LineSeries Margin="0,0,0,0"  
+                IndependentValuePath="Name"  
+                DependentValuePath="Amount" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+
+                    <Charting:LineSeries Margin="0,0,0,0"  
+                IndependentValuePath="Name"  
+                DependentValuePath="Amount" ScrollViewer.HorizontalScrollBarVisibility="Visible"  
+                />
+                    <Charting:LineSeries Margin="0,0,0,0"  
+                IndependentValuePath="Name"  
+                DependentValuePath="Amount" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+
+                    <Charting:LineSeries Margin="0,0,0.333,9.333"  
+                IndependentValuePath="Name"  
+                DependentValuePath="Amount" ScrollViewer.HorizontalScrollBarVisibility="Visible"  
+                />
+                </Charting:Chart>
+            </ContentControl>
+        </ScrollViewer>
+        <Button x:Name="btnSubmit" Content="SUBMIT" Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="612.333,239.667,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="1,0" Click="btnSubmit_Click" Background="#FFF57921" FontFamily="Calibri Light" FontSize="18" Foreground="White" Grid.Row="2" TabIndex="5">
             <Button.RenderTransform>
                 <CompositeTransform TranslateY="-1"/>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="txtValue1" Grid.Column="1" HorizontalAlignment="Left" Height="19" Margin="636,116,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="239" />
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="579,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52">
-            <Run Text="Value"/>
-            <Run Text="1"/>
-        </TextBlock>
-        <TextBox x:Name="txtValue4" Grid.Column="1" HorizontalAlignment="Left" Height="14" Margin="636,352,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.492,1.665" />
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="579,352,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52">
-            <Run Text="Value"/>
-            <Run Text="4"/>
-        </TextBlock>
-        <TextBox x:Name="txtValue2" Grid.Column="1" HorizontalAlignment="Left" Height="19" Margin="636,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="239"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="579,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52">
-            <Run Text="Value"/>
-            <Run Text="2"/>
-        </TextBlock>
-        <TextBox x:Name="txtValue3" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="636,271,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="239" />
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="579,271,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52">
-            <Run Text="Value"/>
-            <Run Text="3"/>
-        </TextBlock>
-        <DatePicker x:Name="DatePick" HorizontalAlignment="Left" Margin="600,544,0,0" VerticalAlignment="Top" Grid.Column="1" Width="239" >
+        <TextBox x:Name="txtValue1" Grid.Column="1" HorizontalAlignment="Left" Height="43" Margin="612.333,159,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="245" Grid.Row="1" FontSize="18" TabIndex="1" KeyDown="txtValue1_KeyDown"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="32" Margin="538.333,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" Text="Loadcell 1" FontFamily="Calibri" FontSize="16" Grid.Row="1" RenderTransformOrigin="-0.082,0.5"/>
+        <TextBox x:Name="txtValue4" Grid.Column="1" HorizontalAlignment="Left" Height="43" Margin="612.333,175.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="245" RenderTransformOrigin="0.492,1.665" Grid.Row="2" FontSize="18" TabIndex="4" KeyDown="txtValue4_KeyDown"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="538.333,184.667,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" Text="Loadcell 4" FontFamily="Calibri" FontSize="16" Grid.Row="2"/>
+        <TextBox x:Name="txtValue2" Grid.Column="1" HorizontalAlignment="Left" Height="43" Margin="612.333,22.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="245" Grid.Row="2" FontSize="18" TabIndex="2" KeyDown="txtValue2_KeyDown"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="538.333,31.667,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" Text="Loadcell 2" FontFamily="Calibri" FontSize="16" Grid.Row="2"/>
+        <TextBox x:Name="txtValue3" Grid.Column="1" HorizontalAlignment="Left" Height="43" Margin="612.333,99.667,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="245" Grid.Row="2" FontSize="18" TabIndex="3" KeyDown="txtValue3_KeyDown"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="47" Margin="538.333,109.667,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" Text="Loadcell 3" FontFamily="Calibri" FontSize="16" Grid.Row="2"/>
+        <DatePicker x:Name="DatePickFrom" HorizontalAlignment="Left" Margin="567.333,399.667,0,0" VerticalAlignment="Top" Grid.Column="1" Width="304" FontFamily="Calibri" FontSize="16" Grid.Row="2" TabIndex="7" IsTabStop="True" >
             <FlyoutBase.AttachedFlyout>
                 <MenuFlyout/>
             </FlyoutBase.AttachedFlyout>
         </DatePicker>
-        <Button x:Name="btnLookUp" Content="LOOK UP" Grid.Column="1" HorizontalAlignment="Left" Margin="636,600,0,0" VerticalAlignment="Top" Width="239" Click="btnLookUp_Click" Height="47" Background="#FFFF7900" Foreground="White" FontSize="18" FontFamily="Calibri" RenderTransformOrigin="0,0"/>
-        <TextBlock x:Name="lblError" HorizontalAlignment="Left" Margin="636,87,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="24" Width="313" Grid.Column="1" Foreground="#FFFF1E1E"/>
-        <Popup/>
-        <Button x:Name="btnUndo" Content="UNDO" Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="759,425,0,0" VerticalAlignment="Top" Width="116" RenderTransformOrigin="1,0" Background="#FFFF7900" FontFamily="Calibri Light" FontSize="18" Foreground="White" Click="btnUndo_Click" >
+        <Button x:Name="btnLookUp" Content="LOOK UP" Grid.Column="1" HorizontalAlignment="Left" Margin="594.333,510.667,0,0" VerticalAlignment="Top" Width="239" Click="btnLookUp_Click" Height="47" Background="#FFF57921" Foreground="White" FontSize="18" FontFamily="Calibri" RenderTransformOrigin="0,0" Grid.Row="2" TabIndex="9"/>
+        <TextBlock x:Name="lblError" HorizontalAlignment="Left" Margin="555.333,135,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="24" Width="296" Grid.Column="1" Foreground="#FFFF1E1E" Grid.Row="1"  />
+        <Popup Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,0,975,0"/>
+        <Button x:Name="btnUndo" Content="UNDO" Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="741.333,239.667,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="1,0" Background="#FFF57921" FontFamily="Calibri Light" FontSize="18" Foreground="White" Click="btnUndo_Click" Grid.Row="2" TabIndex="6">
             <Button.RenderTransform>
                 <CompositeTransform TranslateY="-1"/>
             </Button.RenderTransform>
         </Button>
+        <Image HorizontalAlignment="Left" Height="99" Margin="35,10,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="241" Source="Assets/High Res CMYK 300dpi 250x88mm - Black on Orange.jpg"  />
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="525.333,401.667,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="From" FontFamily="Calibri" FontSize="16" Grid.Row="2"/>
+        <DatePicker x:Name="DatePickTo" HorizontalAlignment="Left" Margin="567.333,454.667,0,0" VerticalAlignment="Top" Grid.Column="1" Width="304" FontFamily="Calibri" FontSize="16" Grid.Row="2" TabIndex="8" IsTabStop="True">
+            <FlyoutBase.AttachedFlyout>
+                <MenuFlyout/>
+            </FlyoutBase.AttachedFlyout>
+        </DatePicker>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="546.333,456.667,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="16" Text="To" FontFamily="Calibri" FontSize="16" Grid.Row="2"/>
+        <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="397.333,596.667,0,0" Grid.Row="2" Width="100" FontFamily="Calibri" FontSize="16" Click="btnPrint_Click"/>
+        
     </Grid>
 </Page>
